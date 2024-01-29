@@ -1,8 +1,16 @@
 /* eslint-disable react/prop-types */
 import { Box, Button } from '@mui/material';
+import { useGameDispatch } from '../gameContext';
 
-export const Cell = () => {
+export const Cell = ({ state, value, index }) => {
   // emojis : 🚩 💣
+
+  const cell = {
+    state,
+    value,
+    index,
+  };
+  const dispatch = useGameDispatch();
   return (
     <Box
       border={'1px solid #333'}
@@ -13,6 +21,11 @@ export const Cell = () => {
     >
       <Button
         fullWidth
+        onClick={() => dispatch({ type: 'onCellClick', payload: cell })}
+        onContextMenu={(e) => {
+          dispatch({ type: 'onFlagCell', payload: cell });
+          e.preventDefault();
+        }}
         sx={{
           height: '100%',
           margin: 0,
@@ -20,9 +33,14 @@ export const Cell = () => {
           '&:hover': {
             backgroundColor: '#444',
           },
+          backgroundColor: cell.state === 'untouched' ? '#333' : '#555',
         }}
       >
-        💣
+        {cell.state === 'untouched'
+          ? ''
+          : cell.state === 'flagged'
+          ? '🚩'
+          : cell.value}
       </Button>
     </Box>
   );
