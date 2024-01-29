@@ -2,17 +2,19 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@mui/material';
-import { useGameDispatch } from '../gameContext';
+import { useGameDispatch, useGame } from '../gameContext';
 
-export const Timer = ({ initialTime }) => {
+export const Timer = () => {
   const dispatch = useGameDispatch();
-  const [time, setTime] = useState(initialTime);
+  const game = useGame();
+  const [time, setTime] = useState(game.time);
   const [isRunning, setIsRunning] = useState(false);
   const intervalId = useRef(null);
 
   const createTimer = () => {
     intervalId.current = setInterval(() => {
       setTime((time) => time - 1);
+      dispatch({ type: 'onTimeUpdate', payload: (time) => time - 1 });
     }, 1000);
     setIsRunning(true);
   };

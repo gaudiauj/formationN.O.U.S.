@@ -11,7 +11,7 @@ const gridSize = {
   height: 10,
 };
 
-const quantityOfBomb = 10;
+const quantityOfBomb = 1;
 
 export function GameProvider({ children }) {
   const [game, dispatch] = useReducer(

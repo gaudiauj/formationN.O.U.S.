@@ -4,6 +4,7 @@ import { Typography, Box, Button } from '@mui/material';
 import { Cell } from './components/Cell';
 import { Timer } from './components/Timer';
 import { useGameDispatch, GameProvider, useGame } from './gameContext';
+import { WonForm } from './components/WonForm';
 
 const gridSize = {
   width: 10,
@@ -39,6 +40,7 @@ function Game() {
         <Typography variant="h2" gutterBottom>
           Vous avez gagné
         </Typography>
+        <WonForm />
         <RestartButton />
       </div>
     );
