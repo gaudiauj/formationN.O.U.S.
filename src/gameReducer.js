@@ -13,11 +13,11 @@ export function gameReducer(game, action) {
     case 'onFlagCell': {
       return game.flagCell(action.payload);
     }
-    case 'onTimerEnd': {
-      return game.onTimerEnd();
-    }
     case 'onRestart': {
       return getInitialGame({ ...action.payload });
+    }
+    case 'onTimeUpdate': {
+      return game.setTimes(action.payload(game.time));
     }
     default: {
       throw Error('Action inconnue : ' + action.type);
