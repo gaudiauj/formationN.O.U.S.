@@ -3,9 +3,11 @@ import { Formik, Form } from 'formik';
 import { MyTextInput } from './InputText';
 import * as Yup from 'yup';
 import { useGame } from '../gameContext';
+import { useState } from 'react';
 
 export const WonForm = () => {
   const game = useGame();
+  const [isLoading, setIsLoading] = useState(false);
   const formProps = {
     initialValues: {
       pseudo: '',
@@ -22,7 +24,17 @@ export const WonForm = () => {
         .required('Obligatoire'),
     }),
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      setIsLoading(true);
+      fetch('http://localhost:3000/score', {
+        mode: 'cors',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values, null, 2),
+      }).finally(() => {
+        setIsLoading(false);
+      });
     },
   };
 
@@ -59,7 +71,9 @@ export const WonForm = () => {
             placeholder="Score"
             style={{ display: 'none' }}
           />
-          <button type="submit">enregistrer</button>
+          <button type="submit" disabled={isLoading}>
+            enregistrer
+          </button>
         </Form>
       </>
     </Formik>

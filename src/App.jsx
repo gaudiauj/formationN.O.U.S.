@@ -5,6 +5,7 @@ import { Cell } from './components/Cell';
 import { Timer } from './components/Timer';
 import { useGameDispatch, GameProvider, useGame } from './gameContext';
 import { WonForm } from './components/WonForm';
+import { useEffect, useState } from 'react';
 
 const gridSize = {
   width: 10,
@@ -30,6 +31,20 @@ const RestartButton = () => {
 };
 
 function Game() {
+  const [scores, setScores] = useState([]);
+  useEffect(() => {
+    fetch('http://localhost:3000/score', {
+      mode: 'cors',
+      method: 'GET',
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setScores(data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
   const game = useGame();
   if (game.state === 'win') {
     return (
@@ -64,6 +79,33 @@ function Game() {
       <Typography variant="h1" gutterBottom>
         Démineur
       </Typography>
+      <Typography variant="h2" gutterBottom>
+        Score
+      </Typography>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        border="1px solid black"
+        borderRadius="4px"
+        padding="8px"
+        margin="8px"
+      >
+        {scores
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 5)
+          .map((score, _index) => (
+            <Box key={_index}>
+              <Typography variant="h3" gutterBottom>
+                {score.pseudo}
+              </Typography>
+              <Typography variant="h4" gutterBottom>
+                {score.score}
+              </Typography>
+            </Box>
+          ))}
+      </Box>
       <Timer initialTime={game.time} />
       <Box
         display="grid"
