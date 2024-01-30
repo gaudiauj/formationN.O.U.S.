@@ -2,6 +2,8 @@ import './App.css';
 import Game from './domain/game';
 import { Typography, Box } from '@mui/material';
 import { Cell } from './components/Cell';
+import { Timer } from './components/Timer';
+import { useState } from 'react';
 
 const gridSize = {
   width: 10,
@@ -10,13 +12,18 @@ const gridSize = {
 
 const quantityOfBomb = 10;
 const grid = new Game(gridSize, quantityOfBomb).grid;
+
 function App() {
-  console.log(grid);
+  const cells = grid.map((cell) => {
+    // values.push(cell.value);
+    return <Cell key={cell.index} value={cell.value} />;
+  });
   return (
     <div className="App">
       <Typography variant="h1" gutterBottom>
         Démineur
       </Typography>
+      <Timer></Timer>
       <Box
         display="grid"
         gridTemplateColumns={`repeat(${gridSize.width}, 1fr)`}
@@ -25,7 +32,7 @@ function App() {
         bgcolor={'#444'}
         padding={'20px'}
       >
-        <Cell>cell</Cell>
+        {cells}
       </Box>
     </div>
   );
