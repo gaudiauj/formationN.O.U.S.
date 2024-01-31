@@ -2,12 +2,15 @@
 import { Box, Button } from '@mui/material';
 import { useState } from 'react';
 
-export const Cell = ({ value }) => {
-  const [isClicked, setIsClicked] = useState(false);
-  const AuClic = () => {
-    setIsClicked(true);
-  };
+export const Cell = ({ value, auClic, state, auClicDroit }) => {
+  // const AuClic = () => {
+  //   setIsClicked(true);
+  // };
 
+  // state :
+  // untouched
+  // digged
+  // flagged
   // emojis : 🚩 💣
   return (
     <Box
@@ -26,11 +29,12 @@ export const Cell = ({ value }) => {
           '&:hover': {
             backgroundColor: '#444',
           },
-          backgroundColor: isClicked ? ' #555' : '#333',
+          backgroundColor: state == 'digged' ? ' #555' : '#333',
         }}
-        onClick={AuClic}
+        onContextMenu={auClicDroit}
+        onClick={auClic}
       >
-        {isClicked ? value : null}
+        {state == 'flagged' ? '🚩' : state == 'digged' ? value : ''}
       </Button>
     </Box>
   );

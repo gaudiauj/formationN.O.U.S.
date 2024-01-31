@@ -2,14 +2,10 @@
 import { Box, Button } from '@mui/material';
 import { useState, useRef, useEffect } from 'react';
 
-export const Timer = () => {
-  const [count, setCount] = useState(10);
-
+export const Timer = ({ count, setCount, state }) => {
   const intervalID = useRef(null);
   useEffect(() => {
-    console.log('effect');
     intervalID.current = setInterval(() => {
-      console.log('coucou', count);
       setCount((count) => count - 1);
     }, 1000);
 
@@ -22,7 +18,7 @@ export const Timer = () => {
     clearInterval(intervalID.current);
   };
 
-  if (count == 0) {
+  if (count == 0 || state == 'win') {
     stopCount();
   }
   return (

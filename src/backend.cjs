@@ -75,7 +75,10 @@ app.get('/score', (req, res) => {
   );
   try {
     const data = readData();
-    res.status(200).json(data);
+
+    setTimeout(() => {
+      res.status(200).json(data);
+    }, 3000);
   } catch (err) {
     res.status(500).send('Error reading data');
   }
